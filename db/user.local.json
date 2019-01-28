@@ -1,0 +1,42 @@
+[
+    {
+        "userId": "id0001",
+        "username": "name0001",
+        "tenantId": "tenant0001",
+        "email": "email0001",
+        "status": 0,
+        "password": "password0001"
+    },
+    {
+        "userId": "id0002",
+        "username": "name0002",
+        "tenantId": "tenant0002",
+        "email": "email0002",
+        "status": 0,
+        "password": "password0002"
+    },
+    {
+        "userId": "id0003",
+        "username": "name0003",
+        "tenantId": "tenant0003",
+        "email": "email0003",
+        "status": 0,
+        "password": "password0003"
+    }
+    ,{
+        "userId": "id0004",
+        "username": "name0004",
+        "tenantId": "tenant0004",
+        "email": "email0004",
+        "status": 0,
+        "password": "password0004"
+    }
+    ,{
+        "userId": "id0005",
+        "username": "name0005",
+        "tenantId": "tenant0005",
+        "email": "email0005",
+        "status": 0,
+        "password": "password0005"
+    }
+]

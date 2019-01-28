@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "commander": "^2.19.0",
+    "serverless-dynamodb-local": "0.2.30",
+    "serverless-go-build": "^0.0.6",
+    "serverless-offline": "^4.2.0"
+  }
+}

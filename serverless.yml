@@ -1,0 +1,105 @@
+service: go-crypto # NOTE: update this with your service name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+frameworkVersion: ">=1.28.0 <2.0.0"
+
+# plugins:
+  # - serverless-go-build
+
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+package:
+  individually: true
+#  exclude:
+#    - ./**
+#  include:
+#    - ./bin/**
+
+custom:
+  dynamodb:
+  # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev
+    start:
+      port: 8001
+      inMemory: true
+      migrate: true
+      seed: true
+      # convertEmptyValues: true
+    seed:
+      dev:
+        sources:
+          - table: usersTable
+            sources: [./db/user.local.json]
+
+
+functions:
+  hello:
+    handler: bin/hello #hello/main
+    events:
+      - http:
+          path: hello
+          method: get
+  world:
+    handler: bin/world #world/main
+    events:
+      - http:
+          path: world
+          method: get
+          authorizer:
+            name: authorizerFunc
+            resultTtlInSeconds: 0
+            identitySource: ''
+            type: request
+
+  authorizerFunc:
+    handler: bin/authorizer #authorizer/main
+
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: tenantId
+            AttributeType: S
+          - AttributeName: username
+            AttributeType: S
+          # - AttributeName: email
+          #   AttributeType: S
+          # - AttributeName: password
+          #   AttributeType: S
+          # - AttributeName: status
+          #   AttributeType: N
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+        - IndexName: tenantIdUserNameIndex
+          KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+          - AttributeName: tenantId
+            KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
