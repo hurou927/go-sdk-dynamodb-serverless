@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "deploy": "sls build && sls deploy"
+  },
   "dependencies": {
     "commander": "^2.19.0",
     "serverless-dynamodb-local": "0.2.30",

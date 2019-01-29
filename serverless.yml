@@ -17,13 +17,22 @@ provider:
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-go-build
 
 package:
   individually: true
-#  exclude:
-#    - ./**
-#  include:
-#    - ./bin/**
+# package:
+#   exclude:
+#     - ./**
+#   include:
+#     - ./bin/**
+# package:
+#   individually: true
+#   exclude:
+#     - ./**
+#     - '!./bin/**'
+  # include:
+  #   - ./bin/**
 
 custom:
   dynamodb:
@@ -45,13 +54,15 @@ custom:
 
 functions:
   hello:
-    handler: bin/hello #hello/main
+    # handler: bin/hello #hello/main
+    handler: hello/handler.go
     events:
       - http:
           path: hello
           method: get
   world:
-    handler: bin/world #world/main
+    # handler: bin/world #world/main
+    handler: world/handler.go
     events:
       - http:
           path: world
@@ -63,8 +74,8 @@ functions:
             type: request
 
   authorizerFunc:
-    handler: bin/authorizer #authorizer/main
-
+    # handler: bin/authorizer #authorizer/main
+    handler: authroizer/handler.go
 
 resources:
   Resources:
